@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Polygones des départements - IAV Hassan II</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS de Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    html, body { height: 100%; margin: 0; }
+    #map { height: 100vh; width: 100%; }
+    .popup-img { width: 200px; display: block; margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- JS de Leaflet -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // ------------------ 1. Initialisation ------------------
+    const map = L.map('map').setView([33.9755, -6.8670], 17);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap | IAV Hassan II'
+    }).addTo(map);
+
+    // ------------------ 2. Polygones des départements ------------------
+    const clinique = L.polygon([
+      [33.974223, -6.868924],
+      [33.974518, -6.868607],
+      [33.974377, -6.868356],
+      [33.974048, -6.868661]
+    ], { color: "#FF3333", fillColor: "#FF6666", fillOpacity: 0.6 }).addTo(map);
+    L.marker([33.97432, -6.8686]).addTo(map)
+      .bindPopup("<b>Clinique vétérinaire</b><br>Centre de soins et de recherche vétérinaire.");
+
+    const iaa = L.polygon([
+      [33.974706, -6.866117],
+      [33.974585, -6.865893],
+      [33.974397, -6.866073],
+      [33.974546, -6.866307]
+    ], { color: "#3366FF", fillColor: "#6699FF", fillOpacity: 0.6 }).addTo(map);
+    L.marker([33.97457, -6.8661]).addTo(map)
+      .bindPopup("<b>IAA</b><br>Institut Agronomique et Agroalimentaire.");
+
+    const poleDigital = L.polygon([
+      [33.976993, -6.865881],
+      [33.976792, -6.865788],
+      [33.976718, -6.866031],
+      [33.976905, -6.866125]
+    ], { color: "#009933", fillColor: "#66CC66", fillOpacity: 0.6 }).addTo(map);
+    L.marker([33.97688, -6.86597]).addTo(map)
+      .bindPopup(`<b>Pôle Digital de l’Agriculture</b><br>Espace d’innovation numérique pour l’agriculture.<br><img src="images/pole_digital.jpeg" class="popup-img" alt="Pôle Digital">`);
+
+    const topoCoords = [
+      [33.97665, -6.86645],
+      [33.97623, -6.86678],
+      [33.97630, -6.86692],
+      [33.97613, -6.86709],
+      [33.97629, -6.86738],
+      [33.97633, -6.86737],
+      [33.97667, -6.86718],
+      [33.97691, -6.86693]
+    ];
+    L.polygon(topoCoords, { color: "#FF9900", fillColor: "#FFCC66", fillOpacity: 0.6 }).addTo(map);
+    L.marker([33.97649054499262, -6.86685689729684]).addTo(map)
+      .bindPopup("<b>Département Topographie</b><br>Enseignement et recherche en géomatique et topographie.");
+
+    const amphiCoords = [
+      [33.97495, -6.86685],
+      [33.97488, -6.86707],
+      [33.97472, -6.86721],
+      [33.97456, -6.86694],
+      [33.97471, -6.86678],
+      [33.97491, -6.86674]
+    ];
+    L.polygon(amphiCoords, { color: "#9900CC", fillColor: "#CC99FF", fillOpacity: 0.6 }).addTo(map);
+    L.marker([33.97480, -6.86695]).addTo(map)
+      .bindPopup("<b>Grand Amphi Agro</b>");
+
+    // ------------------ 3. Chemin ------------------
+    L.polyline([
+      [33.9754785964006, -6.867310668986265],
+      [33.97494968582455, -6.866558312128982],
+      [33.976085656488614, -6.866362667661885]
+    ], { color: "gray", dashArray: '5,10', weight: 3 }).addTo(map)
+      .bindPopup("Chemin vers Grand Amphi Agro");
+
+    // ------------------ 4. Ajuster la vue ------------------
+    const allBounds = L.featureGroup([
+      clinique, iaa, poleDigital, topoCoords, amphiCoords
+    ]).getBounds();
+    map.fitBounds(allBounds);
+
+  </script>
+</body>
+</html>
